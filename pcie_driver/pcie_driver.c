@@ -36,7 +36,6 @@ int InitPcieDevice(int vendor_id, int device_id)
 			dev = mydev;
 			printf("find device,vendor_id=%#x device_id=%#x\n", vendor_id, device_id);
 			return 0;
-			//break;
 		}
 	}
 
@@ -59,8 +58,6 @@ unsigned char *PcieVirAddrMap(unsigned int phy_addr, unsigned int size)
 		printf("%s open mem fail\n", __FUNCTION__);
 		return NULL;
 	}
-	//printf("%s %d\n",__FUNCTION__,__LINE__);
-	//mmap(NULL , tStat.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, iFd, 0);
 	pcieVirtAddr = (unsigned char *)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, pcieVirAddr_fd, phy_addr);
 
 	if (pcieVirtAddr == NULL)
@@ -68,7 +65,6 @@ unsigned char *PcieVirAddrMap(unsigned int phy_addr, unsigned int size)
 		printf("mmap pcieBufVirtAddr failed !!! \n");
 		return NULL;
 	}
-	//printf("sdafds\n");
 	return pcieVirtAddr;
 }
 
