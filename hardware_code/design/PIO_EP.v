@@ -118,7 +118,6 @@ module PIO_EP #(
 	// Local wires
 
 	wire  [31:0]      rd_data;
-	//reg  rd_data_en;;
 
 	wire  [29:0]      wr_addr;
 
@@ -138,7 +137,6 @@ module PIO_EP #(
 	wire req_be_en;
 
 	wire  [31:0]      req_addr;
-	//wire  [31:0] ddr_rd_data;
 
 	//
 	// ENDPOINT MEMORY : 8KB memory aperture implemented in FPGA BlockRAM(*)
@@ -403,15 +401,8 @@ module PIO_EP #(
 				end
 				DDR_RST:
 				begin
-
-					//app_wdf_mask <= 64'hffff_ffff_ffff_ffff ;
-					//app_rd_data_reg <= 512'b0;
-
-
 					ddr_rd_data_wren <= 1'b0;
-					// app_en <= 1'b0;
-					// app_wdf_wren <= 1'b0;
-
+					
 					if(!pcie_to_ddr_fifo_empty)
 					begin
 						pcie_data_fifo_rd_en <= 1'b1;
@@ -449,8 +440,6 @@ module PIO_EP #(
 													pcie_data_fifo[47:40],pcie_data_fifo[55:48],pcie_data_fifo[63:56],pcie_data_fifo[71:64],
 													pcie_data_fifo[47:40],pcie_data_fifo[55:48],pcie_data_fifo[63:56],pcie_data_fifo[71:64],
 													pcie_data_fifo[47:40],pcie_data_fifo[55:48],pcie_data_fifo[63:56],pcie_data_fifo[71:64]};//copy sixteen 因为有掩码所以不用多路选择器
-							//app_wdf_mask <= { 60'hffff_ffff_ffff_fff, !pcie_data_fifo[3], !pcie_data_fifo[2], !pcie_data_fifo[1], !pcie_data_fifo[0]};//屏蔽掉高480位
-
 
 							if(pcie_data_fifo[11:8] == 4'b0000 )
 								app_wdf_mask[3:0] <= 4'b0;
@@ -516,8 +505,6 @@ module PIO_EP #(
 								app_wdf_mask[63:60] <= 4'b0;
 							else
 								app_wdf_mask[63:60] <=  4'hf;
-							//app_wdf_data[511:0] <= 512'hffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff;
-							//app_wdf_mask <= { 64'hf0f0_f0f0_f0f0_f0f0};//屏蔽掉高480位
 
 							ddr_state <=  DDR_WAIT_WR;
 						end
